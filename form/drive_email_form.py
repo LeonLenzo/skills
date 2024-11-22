@@ -1,4 +1,4 @@
-import streamlit as st
+eimport streamlit as st
 import pandas as pd
 import os
 import yagmail
@@ -29,7 +29,7 @@ FOLDER_ID = st.secrets["FOLDER_ID"]
 existing_file_id = "1k4pPHBUvX7ubOgIdRXUCbP2T2WwuAQvGdnbUgCDYAgc"
 
 # Load courses data for competencies dropdown
-courses_file = "../data/courses.csv"
+courses_file = "/mount/src/skills/data/courses.csv"
 if os.path.exists(courses_file):
     courses_df = pd.read_csv(courses_file)
     courses_df["Display"] = courses_df["Course Code"] + " - " + courses_df["Course Name"]

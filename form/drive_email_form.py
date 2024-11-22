@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import yagmail
+import base64
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from google.oauth2 import service_account
@@ -11,18 +12,19 @@ import io
 # Email configuration
 EMAIL_ADDRESS = "leon.lenzo.1@gmail.com"
 BUSINESS_EMAIL = "leon.lenzo.1@gmail.com"
-yag = yagmail.SMTP(EMAIL_ADDRESS, 'golokpnruqcjmkcn')
+yag = yagmail.SMTP(EMAIL_ADDRESS, st.secrets["EMAIL_PASSWORD"])
 
 # Google Drive API setup
-SERVICE_ACCOUNT_FILE = "drive-api-442504-0d8e6c4b47fe.json"
-SCOPES = ['https://www.googleapis.com/auth/drive']
-creds = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES
+credentials_base64 = st.secrets["GOOGLE_CREDENTIALS"]
+credentials_json = base64.b64decode(credentials_base64).decode("utf-8")
+creds = service_account.Credentials.from_service_account_info(
+    json.loads(credentials_json)
 )
+
 drive_service = build('drive', 'v3', credentials=creds)
 
 # Folder and File IDs
-FOLDER_ID = "1N2kR6Z7pbmDYKc3Sm0yhzVltLizE1rgp"
+FOLDER_ID = st.secrets["FOLDER_ID"]
 existing_file_id = "1k4pPHBUvX7ubOgIdRXUCbP2T2WwuAQvGdnbUgCDYAgc"
 
 # Load courses data for competencies dropdown

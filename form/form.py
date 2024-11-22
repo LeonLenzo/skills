@@ -37,6 +37,8 @@ with st.form("registration_form"):
     # Submit button
     submitted = st.form_submit_button("Register")
 
+st.write("Current working directory:", os.getcwd())
+
 if submitted:
     # Validate inputs
     if not name or not email:

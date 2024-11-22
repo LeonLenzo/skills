@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import yagmail
-import keychain
+import keyring
 from datetime import date
 
 # Configure email credentials (replace with your own email and app password)

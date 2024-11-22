@@ -13,7 +13,7 @@ yag = yagmail.SMTP(EMAIL_ADDRESS)
 new_clients_file = "new_clients.csv"
 
 # Load courses data for competencies dropdown
-courses_file = "../data/courses.csv"
+courses_file = "/mount/src/skills/data/courses.csv"
 if os.path.exists(courses_file):
     courses_df = pd.read_csv(courses_file)
     courses_df["Display"] = courses_df["Course Code"] + " - " + courses_df["Course Name"]

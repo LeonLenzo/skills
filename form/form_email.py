@@ -2,12 +2,13 @@ import streamlit as st
 import pandas as pd
 import os
 import yagmail
+import keychain
 from datetime import date
 
 # Configure email credentials (replace with your own email and app password)
 EMAIL_ADDRESS = "leon.lenzo.1@gmail.com"
 BUSINESS_EMAIL = "leon.lenzo.1@gmail.com"
-yag = yagmail.SMTP(EMAIL_ADDRESS)
+yag = yagmail.SMTP(EMAIL_ADDRESS, 'golokpnruqcjmkcn')
 
 # Define the new clients ledger file
 new_clients_file = "new_clients.csv"

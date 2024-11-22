@@ -12,7 +12,7 @@ import io
 
 # Email configuration
 EMAIL_ADDRESS = "leon.lenzo.1@gmail.com"
-BUSINESS_EMAIL = "leon.lenzo.1@gmail.com"
+BUSINESS_EMAIL = "training@skillready.com.au"
 yag = yagmail.SMTP(EMAIL_ADDRESS, st.secrets["EMAIL_PASSWORD"])
 
 # Google Drive API setup

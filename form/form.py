@@ -1,7 +1,16 @@
 import streamlit as st
 import pandas as pd
 import os
+import yagmail
 from datetime import date
+
+# Configure email credentials (replace with your own email and app password)
+EMAIL_ADDRESS = "your_email@gmail.com"
+BUSINESS_EMAIL = "business_email@gmail.com"
+yag = yagmail.SMTP(EMAIL_ADDRESS)
+
+# Define the new clients ledger file
+new_clients_file = "new_clients.csv"
 
 # Load courses data for competencies dropdown
 courses_file = "/mount/src/skills/data/courses.csv"
@@ -13,8 +22,41 @@ else:
     st.error("Courses file not found. Please upload 'courses.csv'!")
     course_options = []
 
-# Define the new clients ledger file
-new_clients_file = "new_clients.csv"
+# Email Sending Function
+def send_email(to, subject, content):
+    try:
+        yag.send(to=to, subject=subject, contents=content)
+    except Exception as e:
+        st.error(f"Failed to send email: {e}")
+
+# Confirmation Email for Client
+def send_confirmation_email(client_email, client_name):
+    subject = "Thank you for your submission!"
+    content = f"""
+    Hi {client_name},
+
+    Thank you for registering with us! We have received your details and will get back to you shortly.
+
+    Best regards,
+    Your Business Team
+    """
+    send_email(client_email, subject, content)
+
+# Notification Email for Business
+def send_notification_email(client_data):
+    subject = "New Client Registration"
+    content = f"""
+    A new client has submitted their details:
+
+    Name: {client_data['Name']}
+    DOB: {client_data['DOB']}
+    Phone: {client_data['Phone']}
+    Email: {client_data['Email']}
+    Competencies: {client_data['Competencies']}
+
+    Please review their details in the new_clients.csv file.
+    """
+    send_email(BUSINESS_EMAIL, subject, content)
 
 # Create the form
 st.title("Client Registration Form")
@@ -61,5 +103,8 @@ if submitted:
             new_clients_df = new_clients_df.append(client_data, ignore_index=True)
             new_clients_df.to_csv(new_clients_file, index=False)
         
-        st.success("Registration successful!")
-        st.write("Your details have been submitted for review.")
+        # Send emails
+        send_confirmation_email(client_data["Email"], client_data["Name"])
+        send_notification_email(client_data)
+        
+        st.success("Registration successful! A confirmation email has been sent.")
